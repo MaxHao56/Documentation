@@ -1,0 +1,5 @@
+'Netkit'
+--- The netkit makes it endpoit retrieveal for the apis in the frontend. All the verfication and error messaging
+
+'Bean'
+--- Where the data is stored in the frotend and getting used. Since the lanauge is java and is very high leveled which means that classes and inheretances are used easly and makes it very covienent to reuse and quote---
