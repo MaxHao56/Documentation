@@ -1,1 +1,2 @@
-
+'Trigger Point' = ::  [SQL(any db) Query]
+--- As the trigger points gets triggered with attributes properties after that. Such as name(), view() and functions like count(). You are able to apply query calls based on logics of the sql query logics. ---
