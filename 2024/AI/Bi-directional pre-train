@@ -1,1 +1,16 @@
 
+learning time-serise for discrimnative tasks(ai distinucuhsing different categories of tasks ) has been long stand issues. 
+right now has 2:
+1. undireactional next-token prediction
+2. randomly masked token prediction 
+
+Therefore the paper has a solution called BitimelyGPT(bidirectional timely generative pre-trained transformer)
+shorten form is take bo;th nxt token and prev tken prediction in alternativng ttransformer layers.
+
+preserves - data distiribution and shapes of time-seriese. 
+add-on - Additionally, the full-rank forward and backward attention matrices exhibit more expressive representation capabilities. 
+
+superior performance in predicting neurological functionality
+
+
+
