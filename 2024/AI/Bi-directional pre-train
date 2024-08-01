@@ -1,8 +1,8 @@
 
 learning time-serise for discrimnative tasks(ai distinucuhsing different categories of tasks ) has been long stand issues. 
 right now has 2:
-1. undireactional next-token prediction
-2. randomly masked token prediction 
+1. undireactional next-token prediction [1.1]
+2. randomly masked token prediction [1.2]
 
 Therefore the paper has a solution called BitimelyGPT(bidirectional timely generative pre-trained transformer)
 shorten form is take bo;th nxt token and prev tken prediction in alternativng ttransformer layers.
@@ -14,3 +14,7 @@ superior performance in predicting neurological functionality
 
 
 
+
+--- Introduction ---
+
+timne series provide valueable insidees for status and outcomes. usefull application =  achieve accurate sequenceto-vector (seq2vec) prediction tasks for centain deasess [2]
