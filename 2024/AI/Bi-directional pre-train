@@ -18,3 +18,42 @@ superior performance in predicting neurological functionality
 --- Introduction ---
 
 timne series provide valueable insidees for status and outcomes. usefull application =  achieve accurate sequenceto-vector (seq2vec) prediction tasks for centain deasess [2]
+
+there are threee methods on a noramalized time-serise[3] Gnereative, masking based, dropping based [3.2, 3.3, 3.4] 
+recent advancement  PTM[4] and computer vision led to tim-series represntation learning.
+
+supervised learning divies into two - masked based and dropping based pre-training [5]
+
+problem = they suffer from data distribution shift[6]
+
+GPT adopts a next-token
+prediction task, which effectively preserves both the original
+distribution and time-series shapelets without changing the data but its poential in time-serise is still underexplored 
+
+
+in this study. focues towards improving downstream seq2vec prediction tasks (Bidirectional Timely Generative Pre-trained
+Transformer (BiTimelyGPT)) that  integrates bidirectionality into generative pre-training
+
+benifits =  preserving the original distribution and time-series shapelets without any data alterations.
+
+The key contributions of our research are threefold:
+1. a Next-Previous-Token Prediction pre-training task preserves the original data distribution and time-series
+shapelets (Figure 1);
+2. a Bidirectionally Alternating AutoRegressive Modeling (BAAR) framework alternately models left-to-right
+and right-to-left information, learning deep bidirectional contexts for discriminative tasks (Figure 2);
+3. the full-rank forward and backward attention matrices
+exhibit expressive representation power (Figure 2).
+
+
+
+
+--- BackGrounds --- 
+
+
+
+
+
+
+
+
+
