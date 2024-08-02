@@ -49,11 +49,191 @@ exhibit expressive representation power (Figure 2).
 
 --- BackGrounds --- 
 
+Techniques and AI Knowledge Used
+Transformer Architecture: This section discusses the basic structure and function of Transformer models, which are pivotal in modern natural language processing. The architecture consists of multiple layers of Transformer blocks, each comprising a multi-head self-attention layer followed by a feed-forward layer. Key components include:
+
+Multi-head Self-Attention: This mechanism allows the model to focus on different parts of the input sequence simultaneously, improving its ability to understand context.
+Encoder-Decoder Structure: Typical in many Transformer models, allowing them to process and generate sequences effectively.
+Attention Mechanisms:
+
+Bidirectional Attention: Used in BERT, captures context from both directions (left-to-right and right-to-left) simultaneously.
+Causal (Unidirectional) Attention: Used in GPT, only considers previous tokens for predicting the next token, making it suitable for generative tasks.
+Bidirectional Recurrent Representation Learning:
+
+BiLSTM (Bidirectional Long Short-Term Memory): Trains separate forward and backward LSTMs to capture context from both directions, concatenating their hidden states.
+ELMo (Embeddings from Language Models): Similar to BiLSTM but concatenates outputs in the final layer, providing shallow bidirectional context.
+Recurrent Transformer (RetNet):
+
+Extrapolatable Position Embedding (xPos): Encodes relative positional information into the Query and Key matrices to handle token distances.
+Retention Mechanism: Reformulates the retention process as a Recurrent Neural Network (RNN), capturing temporal dependencies efficiently.
+BiTimelyGPT:
+
+BAAR Framework (Bidirectional Alternating Attention Retention): Alternates between forward and backward attention across layers, enhancing bidirectional representation learning for time-series data.
+Point of the Paragraph
+The paragraph aims to provide a detailed overview of various advanced techniques in transformer-based AI models, emphasizing their architecture and mechanisms. It explains the evolution from traditional transformers 
+like GPT and BERT to more sophisticated models like RetNet and BiTimelyGPT. The focus is on how these models achieve bidirectionality and capture temporal dependencies, particularly in time-series forecasting and other tasks requiring deep contextual understanding.
+The discussion highlights the unique contributions of the BAAR framework in enhancing bidirectional representation learning, which is crucial for improving the performance of autoregressive models like BiTimelyGPT in both generative and discriminative tasks.
 
 
 
 
+Detailed Explanation of BiTimelyGPT Methodology
+1. Overview of BiTimelyGPT
+BiTimelyGPT is designed to handle time-series data with bidirectional capabilities using a unique convolution-subsampling tokenizer and alternating autoregressive modeling. It aims to pre-train temporal representations for fine-tuning in sequence-to-vector (seq2vec) tasks.
 
+2. Input Processing
+Time-Series Input: A sequence of time-series data, denoted as {x1, x2, ..., xT}, where each xt has V features.
+Convolution-Subsampling Tokenizer: Reduces the input from T × V dimensions to N × V (N < T) using two 1-D convolution layers. This reduces the sequence length while preserving feature dimensions.
+Input Embedding: The tokens are then projected onto an embedding space X ∈ RN×d, with special [SOS] (start of sequence) and [EOS] (end of sequence) tokens added.
+3. Bidirectional Alternating AutoRegressive (BAAR) Modeling
+The BAAR framework introduces bidirectionality in autoregressive models by alternating between left-to-right and right-to-left information flows based on layer indices.
+
+Forward Model (Odd Layers): In odd-indexed layers (l ∈ {1, 3, ..., L-1}), the model predicts the next timestep xt given the past context (x1, ..., xt-1). This forms a history-dependent representation vector.
+Backward Model (Even Layers): In even-indexed layers (l ∈ {2, 4, ..., L}), the model predicts the previous timestep xt given the future context (xt+1, ..., xT). This forms a future-dependent representation vector.
+4. BAAR Framework Illustration
+Forward Attention: Starts with the [SOS] token to predict tokens from left to right. The [EOS] token summarizes information from all timesteps.
+Backward Attention: Starts with the [EOS] token to predict tokens from right to left, reconstructing the sequence in reverse.
+Final Layer: The [SOS] token aggregates sequence features for downstream tasks.
+5. BiTimelyGPT Architecture
+BiTimelyGPT employs the BAAR framework to alternate between forward and backward information flows:
+
+Forward Retention (Odd Layers): Models left-to-right information using a lower triangular decay matrix.
+Backward Retention (Even Layers): Models right-to-left information using an upper triangular decay matrix.
+Bidirectional Pre-Training: The model predicts the next token in the L-1 layer and the previous token in the L layer. The loss is computed using mean squared error (MSE) for continuous signals or cross-entropy for discrete signals.
+6. Full-Rankedness in BiTimelyGPT
+Low-Rank Bottleneck in Self-Attention: Traditional self-attention mechanisms suffer from low-rank issues, leading to less expressive representation matrices.
+Solution in BiTimelyGPT: Alternating forward and backward retention matrices ensures they are full-rank (non-zero diagonals), thus enabling more expressive and effective learning of bidirectional contexts.
+7. Model Comparison
+Data Preservation: BiTimelyGPT preserves the original data distribution and time-series shapelets.
+Bidirectionality: BiTimelyGPT incorporates bidirectional modeling.
+Full-Rankedness: BiTimelyGPT achieves full-rank retention matrices for better representation power.
+
+
+Important Learning Points and Goals
+Bidirectional Modeling: Understanding the significance of alternating between left-to-right and right-to-left information flows to capture comprehensive temporal dependencies.
+
+Convolution-Subsampling Tokenizer: Recognizing the importance of reducing the sequence length while preserving critical features for efficient processing.
+
+Full-Ranked Attention Matrices: Learning how BiTimelyGPT overcomes the low-rank bottleneck in self-attention mechanisms to enhance expressiveness.
+
+Pre-Training Objectives: Grasping the dual objectives of predicting the next and previous tokens to pre-train the model on unlabeled data.
+
+Practical Applications: Applying BiTimelyGPT for seq2vec tasks in various domains, such as regression (continuous variables) and classification (categorical variables).
+
+
+
+Experiment Design and Analysis for BiTimelyGPT
+1. Experiment Design
+To evaluate BiTimelyGPT, the study included both qualitative and quantitative analyses:
+
+Qualitative Analysis: Focused on visualizing and interpreting BiTimelyGPT's advantages, such as data preservation, bidirectionality, and full-rankedness.
+Quantitative Analysis: Assessed the model’s performance on classification and regression tasks against various baseline models.
+Datasets
+Pre-training Datasets:
+Sleep-EDF: 7 types of biosignals, 1.2 billion timesteps.
+PTB-XL: 12 types of ECG data, 109 million timesteps.
+PPG-Dalia: 4 types of photoplethysmograph data, 16.6 million timesteps.
+Downstream Tasks Datasets:
+Epilepsy
+EMG
+RR, HR, SpO2
+Qualitative Analysis
+Visualization Techniques:
+Gradient-based saliency for data preservation.
+Attention matrices to assess bidirectionality.
+Rank analysis of attention matrices for model expressiveness.
+Quantitative Analysis
+Tasks:
+Classification: Pre-trained on Sleep-EDF and PTB-XL, fine-tuned on Sleep-EDF, Epilepsy, PTB-XL, and EMG.
+Regression: Pre-trained on PTB-XL and PPG-Dalia, fine-tuned on IEEEPPG, RR, HR, and SpO2.
+Data Splits: 80% training, 10% validation, 10% test. For datasets used in both pre-training and fine-tuning, 20% of the training set was used for fine-tuning.
+2. Pre-training and Fine-tuning
+BiTimelyGPT: Pre-trained with Next-Previous-Token Prediction, fine-tuned on [SOS] token.
+Baselines:
+PatchTST: Masking-based, 40% patches as zero.
+CRT: Dropping-based, discards up to 70% of patches.
+TimelyBERT: Bidirectional retention matrix, masking-based pre-training.
+3. Visualization of Pre-training Strategies
+Data Preservation:
+BiTimelyGPT had higher saliency scores in shapelet regions, indicating better discrimination of important patterns.
+Comparison with PatchTST and CRT showed BiTimelyGPT’s superior ability to focus on discriminative regions.
+4. Visualization of Bidirectionality
+Effectiveness on Discriminative Tasks:
+BiTimelyGPT combined lower and upper triangular retention matrices to localize attention effectively.
+Comparisons showed BiTimelyGPT’s better focus on key discriminative regions compared to TimelyGPT, GPT-2, and TimelyBERT.
+5. Visualization of Attention Matrix Rankedness
+Expressiveness of Attention Matrices:
+BiTimelyGPT exhibited a more uniform distribution of singular values, overcoming the low-rank bottleneck.
+Other models had skewed distributions, indicating less expressive attention matrices.
+6. Performance on Fine-Tuning Tasks
+Results:
+BiTimelyGPT outperformed baselines in classification (Sleep-EDF, Epilepsy, EMG) and regression (HR, SpO2).
+Highlighted the benefits of bidirectionality, data preservation, and full-rank retention matrices.
+CRT performed well but BiTimelyGPT showed overall superiority, especially in avoiding distribution shifts seen in masking-based models.
+Important Learning Points
+Qualitative Visualization Techniques: Use of gradient-based saliency and attention matrices to qualitatively assess model performance and interpretability.
+Bidirectionality: Incorporation of bidirectional information flow improves model’s ability to capture temporal dependencies.
+Full-Rankedness: Ensures that attention matrices retain expressiveness, avoiding low-rank bottlenecks.
+Pre-training Objectives: Next-Previous-Token Prediction helps in learning effective temporal representations.
+Model Performance: BiTimelyGPT’s superior performance in various tasks demonstrates the effectiveness of its methodologies over traditional and other bidirectional models.
+
+
+
+
+Ablation Study
+Objective
+The ablation study aims to evaluate the contributions of specific components in BiTimelyGPT, namely bidirectionality (BAAR framework) and the xPos embedding.
+
+Methodology
+Components Omitted:
+Bidirectionality (BAAR framework)
+xPos embedding
+Focus: Pre-training and fine-tuning on the Sleep-EDF dataset for classification tasks.
+Results
+xPos Embedding: Enhanced performance by 3.40%. This indicates that xPos effectively encodes extrapolatable temporal patterns into the time-series representations.
+BAAR Framework: Improved downstream seq2vec tasks by 2.76%, demonstrating its importance in learning deep bidirectional representations.
+Method / Classification	Sleep-EDF
+BiTimelyGPT (Generative Pre-training)	90.41
+w/o BAAR	87.65
+w/o xPos (i.e., GPT-2)	84.25
+BiTimelyGPT (w/o Pre-training)	86.33
+Probing Study
+Objective
+To determine the most effective sequence representation for downstream tasks, focusing on the Sleep-EDF classification.
+
+Methodology
+Sequence Features Examined:
+[SOS] token alone
+[EOS] token alone
+Both [SOS] and [EOS] tokens
+All tokens
+Layers Considered:
+Last layer (l = L)
+Last two layers (l = {L - 1, L})
+Representation Method: Average pooling for multiple tokens.
+Results
+Best Performance: Achieved using the [SOS] token from the last layer, attributed to its aggregation of sequence information by backward attention.
+Sequence Representation	Sleep-EDF
+[SOS] (l = L)	90.41
+[EOS] (l = L)	89.66
+[SOS] + [EOS] (l = L)	90.11
+All (l = L)	90.15
+[SOS] (l = {L - 1, L})	88.63
+[EOS] (l = {L - 1, L})	89.52
+[SOS] + [EOS] (l = {L - 1, L})	89.22
+All (l = {L - 1, L})	89.62
+Conclusion and Future Work
+Key Contributions of BiTimelyGPT
+Next-Previous-Token Prediction: Effective pre-training that preserves the original data distribution and shapelets.
+BAAR Framework: Alternates forward and backward retention across layers, leading to deep bidirectional representations.
+Full-Rank Matrices: Forward and backward retention matrices that enhance representation expressiveness.
+Empirical Results
+BiTimelyGPT shows superiority in classification and regression tasks across eight widely-used datasets.
+
+Future Work
+Adaptation to Out-of-Distribution Biosignals: Enhance utility in healthcare time-series.
+Broaden Applicability: Extend BiTimelyGPT to multiple domains and data modalities.
+Experiment with BAAR: Test the BAAR framework with various autoregressive models to explore its benefits further.
 
 
 
