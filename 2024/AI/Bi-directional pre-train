@@ -50,7 +50,8 @@ exhibit expressive representation power (Figure 2).
 --- BackGrounds --- 
 
 Techniques and AI Knowledge Used
-Transformer Architecture: This section discusses the basic structure and function of Transformer models, which are pivotal in modern natural language processing. The architecture consists of multiple layers of Transformer blocks, each comprising a multi-head self-attention layer followed by a feed-forward layer. Key components include:
+Transformer Architecture: This section discusses the basic structure and function of Transformer models, which are pivotal in modern natural language processing. The architecture consists of multiple layers of Transformer blocks,
+each comprising a multi-head self-attention layer followed by a feed-forward layer. Key components include:
 
 Multi-head Self-Attention: This mechanism allows the model to focus on different parts of the input sequence simultaneously, improving its ability to understand context.
 Encoder-Decoder Structure: Typical in many Transformer models, allowing them to process and generate sequences effectively.
